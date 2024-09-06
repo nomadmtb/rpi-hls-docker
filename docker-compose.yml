@@ -1,0 +1,34 @@
+services:
+  ffmpeg:
+    build:
+      context: ffmpeg
+    devices:
+      - "/dev/video0:/dev/video0"
+    volumes:
+      - hls_data:/tmp/hls
+    command: >
+      ffmpeg
+      -f v4l2
+      -i /dev/video0
+      -vf format=yuv420p
+      -c:v libx264
+      -preset superfast
+      -crf 22
+      -g 50
+      -an
+      -hls_time 10
+      -hls_segment_filename "/tmp/hls/segment_%03d.ts"
+      -hls_list_size 500
+      -hls_flags delete_segments
+      -f hls /tmp/hls/stream.m3u8
+  nginx:
+    build:
+      context: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - hls_data:/tmp/hls
+
+volumes:
+  hls_data:
+
