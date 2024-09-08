@@ -9,23 +9,25 @@ services:
     command: >
       ffmpeg
       -f v4l2
+      -framerate 30
       -i /dev/video0
-      -vf format=yuv420p
+      -vf "scale=1920:1080,format=yuv420p"
       -c:v libx264
       -preset superfast
       -crf 22
       -g 50
+      -r 30
       -an
       -hls_time 10
       -hls_segment_filename "/tmp/hls/segment_%03d.ts"
-      -hls_list_size 500
+      -hls_list_size 250
       -hls_flags delete_segments
       -f hls /tmp/hls/stream.m3u8
   nginx:
     build:
       context: nginx
     ports:
-      - "80:80"
+      - "443:443"
     volumes:
       - hls_data:/tmp/hls
 
