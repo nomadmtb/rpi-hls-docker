@@ -14,7 +14,10 @@ services:
       -vf "scale=1920:1080,format=yuv420p"
       -c:v libx264
       -preset superfast
-      -crf 22
+      -b:v 5000k
+      -maxrate 5000k
+      -bufsize 10000k
+      -crf 18
       -g 50
       -r 30
       -an
