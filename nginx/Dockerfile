@@ -8,3 +8,4 @@ RUN apk update \
     -subj "/CN=localhost"
 COPY .htpasswd /etc/nginx/.htpasswd
 COPY nginx.conf /etc/nginx/nginx.conf
+COPY index.html /usr/share/nginx/html/index.html
