@@ -9,9 +9,10 @@ services:
     command: >
       ffmpeg
       -f v4l2
-      -framerate 30
+      -framerate 15
       -i /dev/video0
-      -vf "scale=1920:1080,format=yuv420p"
+      -vf "fps=15"
+      -video_size 1600x1200
       -c:v libx264
       -preset superfast
       -b:v 5000k
